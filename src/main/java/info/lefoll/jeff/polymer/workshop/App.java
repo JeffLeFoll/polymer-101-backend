@@ -1,7 +1,6 @@
 package info.lefoll.jeff.polymer.workshop;
 
 
-import com.mongodb.WriteResult;
 import io.vavr.collection.List;
 import org.bson.types.ObjectId;
 import org.jongo.Jongo;
@@ -26,48 +25,29 @@ public class App extends Jooby {
 
         use("/api/blogpost")
                 .get("/", req -> {
-                    Jongo jongo = require(JongoFactory.class).get("blog-db");
-                    MongoCollection blogPosts = jongo.getCollection("blogposts");
+                    List<BlogPost> result = require(BlogPostRepository.class).findAll();
 
-                    MongoCursor<BlogPost> result = blogPosts.find().as(BlogPost.class);
-
-                    return List.ofAll(() -> result.iterator()).asJava();
+                    return result.asJava();
                 })
+
                 .get("/:id", req -> {
-                    Jongo jongo = require(JongoFactory.class).get("blog-db");
-                    MongoCollection blogPosts = jongo.getCollection("blogposts");
-
-                    ObjectId query = new ObjectId(req.param("id").value());
-                    BlogPost result = blogPosts.findOne(query).as(BlogPost.class);
-
-                    return result;
+                    return require(BlogPostRepository.class).findById(req.param("id").value());
                 })
+
                 .post(req -> {
-                    Jongo jongo = require(JongoFactory.class).get("blog-db");
-                    MongoCollection blogPosts = jongo.getCollection("blogposts");
-
                     BlogPost blogPost = req.body(BlogPost.class);
 
-                    blogPosts.save(blogPost);
-
-                    return blogPost;
+                    return require(BlogPostRepository.class).create(blogPost);
                 })
+
                 .put(req -> {
-                    Jongo jongo = require(JongoFactory.class).get("blog-db");
-                    MongoCollection blogPosts = jongo.getCollection("blogposts");
-
                     BlogPost blogPost = req.body(BlogPost.class);
 
-                    blogPosts.update(withOid(blogPost.get_id())).with(blogPost);
-
-                    return blogPost;
+                    return require(BlogPostRepository.class).update(blogPost);
                 })
-                .delete("/:id", req -> {
-                    Jongo jongo = require(JongoFactory.class).get("blog-db");
-                    MongoCollection blogPosts = jongo.getCollection("blogposts");
 
-                    ObjectId query = new ObjectId(req.param("id").value());
-                    blogPosts.remove(query);
+                .delete("/:id", req -> {
+                    require(BlogPostRepository.class).removeById(req.param("id").value());
 
                     return Results.ok();
                 });
