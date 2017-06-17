@@ -22,6 +22,16 @@ import static org.jongo.Oid.withOid;
 public class App extends Jooby {
 
     {
+
+        on("dev", () -> {
+            System.out.println("###DEV MODE ###");
+        });
+
+        on("prod", () -> {
+            System.out.println("###PROD MODE ###");
+        });
+
+
         use(new Jackson());
         use(new Mongodb());
         use(new Jongoby());
@@ -63,6 +73,8 @@ public class App extends Jooby {
     }
 
     public static void main(final String[] args) {
+
+
         run(App::new, args);
     }
 }
