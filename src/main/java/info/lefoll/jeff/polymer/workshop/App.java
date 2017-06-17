@@ -8,6 +8,7 @@ import org.jongo.MongoCollection;
 import org.jongo.MongoCursor;
 import org.jooby.Jooby;
 import org.jooby.Results;
+import org.jooby.handlers.CorsHandler;
 import org.jooby.json.Jackson;
 import org.jooby.mongodb.JongoFactory;
 import org.jooby.mongodb.Jongoby;
@@ -24,6 +25,10 @@ public class App extends Jooby {
         use(new Jackson());
         use(new Mongodb());
         use(new Jongoby());
+
+        use("*", new CorsHandler());
+
+        get("/", () -> "I'm alive !!");
 
         use("/api/blogpost")
                 .get("/", req -> {
