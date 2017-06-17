@@ -8,6 +8,7 @@ import org.jongo.MongoCursor;
 import org.jooby.mongodb.JongoFactory;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.inject.Singleton;
 
 import static org.jongo.Oid.withOid;
@@ -18,8 +19,8 @@ public class BlogPostRepository {
     private Jongo jongo;
 
     @Inject
-    public BlogPostRepository(JongoFactory jongoFactory) {
-        jongo = jongoFactory.get("blog-db");
+    public BlogPostRepository(@Named("dbName") String dbName, JongoFactory jongoFactory) {
+        jongo = jongoFactory.get(dbName);
     }
 
     private MongoCollection getCollection() {

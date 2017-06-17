@@ -13,6 +13,8 @@ import org.jooby.mongodb.JongoFactory;
 import org.jooby.mongodb.Jongoby;
 import org.jooby.mongodb.Mongodb;
 
+import java.time.Instant;
+
 import static org.jongo.Oid.withOid;
 
 
@@ -36,12 +38,14 @@ public class App extends Jooby {
 
                 .post(req -> {
                     BlogPost blogPost = req.body(BlogPost.class);
+                    blogPost.setDateCreation(Instant.now());
 
                     return require(BlogPostRepository.class).create(blogPost);
                 })
 
                 .put(req -> {
                     BlogPost blogPost = req.body(BlogPost.class);
+                    blogPost.setDateMaj(Instant.now());
 
                     return require(BlogPostRepository.class).update(blogPost);
                 })
