@@ -4,6 +4,7 @@
     "goal": "clean package"
   },
   "deploy": {
-    "jarName": "target/polymer-101-backend-1.0.jar prod"
+    "jarName": "target/polymer-101-backend-1.0.jar",
+    "goal": "application.env=prod"
   }
 }
