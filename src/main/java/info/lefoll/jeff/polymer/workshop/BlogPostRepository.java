@@ -6,6 +6,8 @@ import org.jongo.Jongo;
 import org.jongo.MongoCollection;
 import org.jongo.MongoCursor;
 import org.jooby.mongodb.JongoFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -16,10 +18,14 @@ import static org.jongo.Oid.withOid;
 @Singleton
 public class BlogPostRepository {
 
+    private final Logger log = LoggerFactory.getLogger(getClass());
+
     private Jongo jongo;
 
     @Inject
-    public BlogPostRepository(@Named("dbName") String dbName, JongoFactory jongoFactory) {
+    public BlogPostRepository(@Named("dbName") String dbName, @Named("db") String db, JongoFactory jongoFactory) {
+        log.info("DbName : " + dbName);
+        log.info("db : " + db);
         jongo = jongoFactory.get(dbName);
     }
 
