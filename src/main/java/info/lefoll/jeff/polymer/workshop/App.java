@@ -24,11 +24,11 @@ public class App extends Jooby {
     {
 
         on("dev", () -> {
-            System.out.println("###DEV MODE ###");
+            System.out.println("### DEV MODE ###");
         });
 
         on("prod", () -> {
-            System.out.println("###PROD MODE ###");
+            System.out.println("### PROD MODE ###");
         });
 
 

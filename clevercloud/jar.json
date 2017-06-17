@@ -5,6 +5,6 @@
   },
   "deploy": {
     "jarName": "target/polymer-101-backend-1.0.jar",
-    "options": "application.env=prod"
+    "args": "application.env=prod"
   }
 }

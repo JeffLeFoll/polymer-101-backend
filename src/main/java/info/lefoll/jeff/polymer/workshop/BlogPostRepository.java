@@ -24,8 +24,9 @@ public class BlogPostRepository {
 
     @Inject
     public BlogPostRepository(@Named("dbName") String dbName, @Named("db") String db, JongoFactory jongoFactory) {
-        log.info("DbName : " + dbName);
-        log.info("db : " + db);
+        System.out.println("### db "+ db + " ###");
+        System.out.println("### DbName "+ dbName+ " ###");
+
         jongo = jongoFactory.get(dbName);
     }
 
