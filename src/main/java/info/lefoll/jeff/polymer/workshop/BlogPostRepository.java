@@ -1,11 +1,16 @@
 package info.lefoll.jeff.polymer.workshop;
 
+import com.fasterxml.jackson.databind.MapperFeature;
+import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.mongodb.DB;
+import com.mongodb.MongoClient;
 import io.vavr.collection.List;
 import org.bson.types.ObjectId;
 import org.jongo.Jongo;
 import org.jongo.MongoCollection;
 import org.jongo.MongoCursor;
-import org.jooby.mongodb.JongoFactory;
+import org.jongo.marshall.jackson.JacksonMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,11 +28,14 @@ public class BlogPostRepository {
     private Jongo jongo;
 
     @Inject
-    public BlogPostRepository(@Named("dbName") String dbName, @Named("db") String db, JongoFactory jongoFactory) {
-        System.out.println("### db "+ db + " ###");
-        System.out.println("### DbName "+ dbName+ " ###");
+    public BlogPostRepository(@Named("dbName") String dbName, MongoClient mongoClient) {
+        DB mongoDb = mongoClient.getDB(dbName);
 
-        jongo = jongoFactory.get(dbName);
+        jongo = new Jongo(mongoDb,
+                new JacksonMapper.Builder()
+                        .registerModule(new Jdk8Module())
+                        .registerModule(new JavaTimeModule())
+                        .build());
     }
 
     private MongoCollection getCollection() {

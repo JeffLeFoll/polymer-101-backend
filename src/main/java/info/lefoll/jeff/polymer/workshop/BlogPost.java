@@ -3,7 +3,7 @@ package info.lefoll.jeff.polymer.workshop;
 import lombok.Data;
 import org.jongo.marshall.jackson.oid.MongoObjectId;
 
-import java.time.Instant;
+import java.time.LocalDateTime;
 
 
 @Data
@@ -14,8 +14,8 @@ public class BlogPost {
 
     private String titre;
     private String message;
-    private Instant dateCreation;
-    private Instant dateMaj;
+    private LocalDateTime dateCreation;
+    private LocalDateTime dateMaj;
 
     public BlogPost() {}
 }
