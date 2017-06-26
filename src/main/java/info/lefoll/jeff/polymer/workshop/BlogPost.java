@@ -16,6 +16,7 @@ public class BlogPost {
     private String message;
     private LocalDateTime dateCreation;
     private LocalDateTime dateMaj;
+    private String auteur;
 
     public BlogPost() {}
 }
