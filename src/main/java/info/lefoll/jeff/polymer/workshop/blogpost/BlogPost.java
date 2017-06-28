@@ -1,4 +1,4 @@
-package info.lefoll.jeff.polymer.workshop;
+package info.lefoll.jeff.polymer.workshop.blogpost;
 
 import lombok.Data;
 import org.jongo.marshall.jackson.oid.MongoObjectId;
@@ -17,6 +17,4 @@ public class BlogPost {
     private LocalDateTime dateCreation;
     private LocalDateTime dateMaj;
     private String auteur;
-
-    public BlogPost() {}
 }

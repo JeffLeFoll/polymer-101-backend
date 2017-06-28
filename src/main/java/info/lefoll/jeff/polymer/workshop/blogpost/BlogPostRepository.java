@@ -1,6 +1,5 @@
-package info.lefoll.jeff.polymer.workshop;
+package info.lefoll.jeff.polymer.workshop.blogpost;
 
-import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.mongodb.DB;
@@ -42,35 +41,41 @@ public class BlogPostRepository {
         return  jongo.getCollection("blogposts");
     }
 
-    List<BlogPost> findAll() {
+    public List<BlogPost> findAll() {
         MongoCursor<BlogPost> result = getCollection().find().as(BlogPost.class);
 
         return List.ofAll(() -> result.iterator());
     }
 
 
-    BlogPost findById(String id) {
+    public BlogPost findById(String id) {
         ObjectId query = new ObjectId(id);
 
         return getCollection().findOne(query).as(BlogPost.class);
     }
 
-    BlogPost create(BlogPost entity) {
+    public BlogPost create(BlogPost entity) {
         getCollection().save(entity);
 
         return entity;
     }
 
-    BlogPost update(BlogPost entity) {
+    public BlogPost update(BlogPost entity) {
 
         getCollection().update(withOid(entity.get_id())).with(entity);
 
         return entity;
     }
 
-    void removeById(String id) {
+    public void removeById(String id) {
         ObjectId query = new ObjectId(id);
 
         getCollection().remove(query);
+    }
+
+    public List<BlogPost> find(String field, String param) {
+        MongoCursor<BlogPost> result = getCollection().find("{" + field +": #}", param).as(BlogPost.class);
+
+        return List.ofAll(result::iterator);
     }
 }
