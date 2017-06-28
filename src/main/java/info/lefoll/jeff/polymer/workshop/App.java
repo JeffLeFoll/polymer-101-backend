@@ -7,7 +7,7 @@ import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;
 import info.lefoll.jeff.polymer.workshop.blogpost.BlogPost;
 import info.lefoll.jeff.polymer.workshop.blogpost.BlogPostRepository;
 import info.lefoll.jeff.polymer.workshop.comment.Comment;
-import info.lefoll.jeff.polymer.workshop.comment.CommentsRepository;
+import info.lefoll.jeff.polymer.workshop.comment.CommentRepository;
 import io.vavr.collection.List;
 import org.jooby.Jooby;
 import org.jooby.Results;
@@ -41,14 +41,14 @@ public class App extends Jooby {
 
                 .post(req -> {
                     BlogPost blogPost = req.body(BlogPost.class);
-                    blogPost.setDateCreation(LocalDateTime.now());
+                    blogPost.setCreationDate(LocalDateTime.now());
 
                     return require(BlogPostRepository.class).create(blogPost);
                 })
 
                 .put(req -> {
                     BlogPost blogPost = req.body(BlogPost.class);
-                    blogPost.setDateMaj(LocalDateTime.now());
+                    blogPost.setUpdateDate(LocalDateTime.now());
 
                     return require(BlogPostRepository.class).update(blogPost);
                 })
@@ -63,17 +63,17 @@ public class App extends Jooby {
                     return Results.ok();
                 })
 
-                .get("/auteur/:name", req -> {
-                    List<BlogPost> result = require(BlogPostRepository.class).find("auteur", req.param("name").value());
+                .get("/autor/:name", req -> {
+                    List<BlogPost> result = require(BlogPostRepository.class).find("autor", req.param("name").value());
 
                     return result.asJava();
                 })
                 .produces("json")
                 .consumes("json");
 
-        use("/api/blogpost/:blogId/comments")
+        use("/api/blogpost/:blogId/comment")
                 .get("/", req -> {
-                    List<Comment> result = require(CommentsRepository.class).findAll(req.param("blogId").value());
+                    List<Comment> result = require(CommentRepository.class).findAll(req.param("blogId").value());
 
                     return result.asJava();
                 })
@@ -81,17 +81,17 @@ public class App extends Jooby {
                 .post(req -> {
                     Comment comment = req.body(Comment.class);
                     comment.setBlogId(req.param("blogId").value());
-                    comment.setDateCreation(LocalDateTime.now());
+                    comment.setCreationDate(LocalDateTime.now());
 
-                    return require(CommentsRepository.class).create(comment);
+                    return require(CommentRepository.class).create(comment);
                 })
 
                 .get("/:id", req -> {
-                    return require(CommentsRepository.class).findById(req.param("id").value());
+                    return require(CommentRepository.class).findById(req.param("id").value());
                 })
 
                 .delete("/:id", req -> {
-                    require(CommentsRepository.class).removeById(req.param("id").value());
+                    require(CommentRepository.class).removeById(req.param("id").value());
 
                     return Results.ok();
                 })

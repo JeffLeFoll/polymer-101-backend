@@ -12,9 +12,9 @@ public class BlogPost {
     @MongoObjectId
     private String _id;
 
-    private String titre;
-    private String message;
-    private LocalDateTime dateCreation;
-    private LocalDateTime dateMaj;
-    private String auteur;
+    private String title;
+    private String article;
+    private LocalDateTime creationDate;
+    private LocalDateTime updateDate;
+    private String autor;
 }

@@ -18,14 +18,14 @@ import javax.inject.Named;
 import javax.inject.Singleton;
 
 @Singleton
-public class CommentsRepository {
+public class CommentRepository {
 
     private final Logger log = LoggerFactory.getLogger(getClass());
 
     private Jongo jongo;
 
     @Inject
-    public CommentsRepository(@Named("dbName") String dbName, MongoClient mongoClient) {
+    public CommentRepository(@Named("dbName") String dbName, MongoClient mongoClient) {
         DB mongoDb = mongoClient.getDB(dbName);
 
         jongo = new Jongo(mongoDb,
