@@ -44,7 +44,7 @@ public class BlogPostRepository {
     public List<BlogPost> findAll() {
         MongoCursor<BlogPost> result = getCollection().find().as(BlogPost.class);
 
-        return List.ofAll(() -> result.iterator());
+        return List.ofAll(result);
     }
 
 
@@ -73,9 +73,13 @@ public class BlogPostRepository {
         getCollection().remove(query);
     }
 
+    public void removeAll(){
+        getCollection().drop();
+    }
+
     public List<BlogPost> find(String field, String param) {
         MongoCursor<BlogPost> result = getCollection().find("{" + field +": #}", param).as(BlogPost.class);
 
-        return List.ofAll(result::iterator);
+        return List.ofAll(result);
     }
 }
