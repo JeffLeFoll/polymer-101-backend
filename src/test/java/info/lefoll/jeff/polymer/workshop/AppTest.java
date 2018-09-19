@@ -18,25 +18,16 @@ public class AppTest {
    * One app/server for all the test of this class. If you want to start/stop a new server per test,
    * remove the static modifier and replace the {@link ClassRule} annotation with {@link Rule}.
    */
-  /*@ClassRule
+  @ClassRule
   public static JoobyRule app = new JoobyRule(new App());
 
   @Test
   public void integrationTest() {
-    get("/ping")
+    get("/")
         .then()
         .assertThat()
-        .body(equalTo("Hello World!"))
+        .body(equalTo("\"I'm alive !!\""))
         .statusCode(200)
-        .contentType("text/html;charset=UTF-8");
+        .contentType("application/json;charset=UTF-8");
   }
-
-  @Test
-  public void unitTest() throws Throwable {
-    String result = new MockRouter(new App())
-        .get("/ping");
-
-    assertEquals("Hello World!", result);
-  } */
-
 }

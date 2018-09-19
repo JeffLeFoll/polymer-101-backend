@@ -53,12 +53,16 @@ public class App extends Jooby {
                     return require(BlogPostRepository.class).update(blogPost);
                 })
 
-                .get("/:id", req -> {
-                    return require(BlogPostRepository.class).findById(req.param("id").value());
-                })
+                .get("/:id", req -> require(BlogPostRepository.class).findById(req.param("id").value()))
 
                 .delete("/:id", req -> {
                     require(BlogPostRepository.class).removeById(req.param("id").value());
+
+                    return Results.ok();
+                })
+
+                .delete(req -> {
+                    require(BlogPostRepository.class).removeAll();
 
                     return Results.ok();
                 })
@@ -86,9 +90,7 @@ public class App extends Jooby {
                     return require(CommentRepository.class).create(comment);
                 })
 
-                .get("/:id", req -> {
-                    return require(CommentRepository.class).findById(req.param("id").value());
-                })
+                .get("/:id", req -> require(CommentRepository.class).findById(req.param("id").value()))
 
                 .delete("/:id", req -> {
                     require(CommentRepository.class).removeById(req.param("id").value());
